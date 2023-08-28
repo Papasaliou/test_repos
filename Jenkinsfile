@@ -21,6 +21,12 @@ pipeline {
                 bat 'mvn sonar:sonar  '
             }
         }
+         stage('Maven version') {
+             steps {
+                 sh "mvn --version"
+            }
+         }
+
         stage('Approve Deployment') {
             input {
                 message "Do you want to proceed for deployment?"
