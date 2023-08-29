@@ -48,7 +48,7 @@ pipeline {
         success {
                emailext(
                    subject: "Build Successful: ${currentBuild.fullDisplayName}",
-                   body: "The build was successful. No further action is required.",
+                   body: "The build was successful. No further action is required.\n \n Build ${currentBuilde.url}",
                    recipientProviders: [culprits(), developers()],
                    replyTo: "lypapasaliou@gmail.com",
                    to: "lypapasaliou@gmail.com"
@@ -57,7 +57,7 @@ pipeline {
            failure {
                emailext(
                    subject: "Build Failed: ${currentBuild.fullDisplayName}",
-                   body: "The build has failed. Please investigate and take necessary action.",
+                   body: "The build has failed. Please investigate and take necessary action.\n \n Build ${currentBuilde.url}",
                    recipientProviders: [culprits(), developers()],
                    replyTo: "lypapasaliou@gmail.com",
                    to: "lypapasaliou@gmail.com"
