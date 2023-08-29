@@ -1,0 +1,14 @@
+name: Build and Deploy
+
+on:
+   push:
+     branches:
+       -[main,jenkins]
+jobs:
+  build:
+     runs-on:ubuntu-latest
+  steps:
+    -name:checkout code
+     use:actions/checkout@v2
+
+
