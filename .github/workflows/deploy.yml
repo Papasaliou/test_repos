@@ -6,9 +6,9 @@ on:
        -[main,jenkins]
 jobs:
   build:
-     runs-on:ubuntu-latest
+     runs-on: ubuntu-latest
   steps:
-    -name:checkout code
-     use:actions/checkout@v2
+    -name: checkout code
+    -use: actions/checkout@v2
 
 
