@@ -1,53 +1,19 @@
-pipeline:
-  agent: any
-  tools:
-    maven: 'Maven'
-  stages:
-    - stage: 'Source'
-      steps:
-        - script: |
-            def selectedBranch=params.BRANCH ?: main
-            git branch: 'main', url: 'https://github.com/Papasaliou/testsir-booking-app.git'
-    - stage: 'Parallel Stage'
-      parallel:
-        - stage: 'Maven version'
-          steps:
-            - script: |
-                bat "mvn --version"
-        - stage: 'Build'
-          steps:
-            - script: |
-                bat 'mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install'
-    - stage: 'SonarQube Analysis'
-      steps:
-        - script: |
-            bat 'mvn sonar:sonar  '
-    - stage: 'Approve Deployment'
-      steps:
-        - input:
-            message: "Do you want to proceed for deployment?"
-          steps:
-            - script: |
-                bat 'echo "Deploying into Server"'
-  post:
-    aborted:
-      script: |
-        echo "Sending message to agent"
-    success:
-      script: |
-        emailext(
-          subject: "Build Successful: ${currentBuild.fullDisplayName}",
-          body: "The build was successful. No further action is required.\n \n Build ${BUILD_URL}",
-          recipientProviders: [culprits(), developers()],
-          replyTo: "lypapasaliou@gmail.com",
-          to: "lypapasaliou@gmail.com"
-        )
-    failure:
-      script: |
-        emailext(
-          subject: "Build Failed: ${currentBuild.fullDisplayName}",
-          body: "The build has failed. Please investigate and take necessary action.\n \n Build ${BUILD_URL}",
-          recipientProviders: [culprits(), developers()],
-          replyTo: "lypapasaliou@gmail.com",
-          to: "lypapasaliou@gmail.com"
-        )
+name: Builde and run
+on:
+  push:
+    branches:
+      -main
+      -jenkins
+jobs:
+  build:
+    runs-on: ubuntu-latest
+  steps:
+    -uses: actions/checkout@v3
+    -name: set up JDK 17
+    uses: actions/setup-java@v3
+    with:
+      java-version: '17'
+      cache:  maven
+    name: build-with Maven
+    run: mvn -B package --file pom.xml
+
