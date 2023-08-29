@@ -11,21 +11,26 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/Papasaliou/testsir-booking-app.git'
             }
         }
-        stage("Build") {
-            steps {
-                bat 'mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install'
+        stage("Parallel Stage"){
+            parallel{
+            stage('Maven version') {
+                             steps {
+                                 bat "mvn --version"
+                            }
+                        }
+                        stage("Build") {
+                            steps {
+                                bat 'mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install'
+                            }
+                        }
             }
         }
+
         stage("SonarQube Analysis") {
             steps {
                 bat 'mvn sonar:sonar  '
             }
         }
-         stage('Maven version') {
-             steps {
-                 sh "mvn --version"
-            }
-         }
 
         stage('Approve Deployment') {
             input {
