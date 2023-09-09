@@ -2,8 +2,7 @@ name: Builde and run
 on:
   push:
     branches:
-      -main
-      -jenkins
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
