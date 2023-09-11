@@ -9,7 +9,6 @@ pipeline {
     stages {
         stage("Source") {
             steps {
-            def selectedBranch=params.BRANCH ?: main
                 git branch: 'main', url: 'https://github.com/Papasaliou/testsir-booking-app.git'
             }
         }
