@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    parameter{
+    parameters{
         String(name:'BRANCH', defaultValue:'main',description:'anythings')
         }
     tools {
