@@ -1,10 +1,11 @@
 pipeline {
     agent any
+    parameter{
+        String(name:'BRANCH', defaultValue:'main',description:'anythings')
+        }
     tools {
         maven 'Maven'
     }
-
-
     stages {
         stage("Source") {
             steps {
